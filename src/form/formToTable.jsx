@@ -1,35 +1,61 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const FormToTable = () => {
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const inputRef = React.createRef();
-    const inputRef1 = React.createRef();
-    const onClickHandler = (e) => {
-        e.preventDefault();
-        setName(inputRef.current.value);
-        setAge(inputRef1.current.value);
+const FormToTable = ({ setStaff }) => {
+    const inputValues = {
+        person: '',
+        age: "",
+        job: "",
+        status: ""
     }
+
+    const [state, setState] = useState(inputValues);
+
+    const onChangeInput = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value })
+    }
+    const onSubmit = (e) => {
+        e.preventDefault();
+    }
+
+    const onClickForm = (e) => {
+        e.preventDefault();
+        setStaff(inputValues);
+    };
 
     return (
         <>
-            <form action="">
-                <label htmlFor='name'>Name:</label>
-                <input type="text" id='name' ref={inputRef} />
+            <form onSubmit={onSubmit}>
+                <label htmlFor='person'>Person:</label>
+                <input type="text" id='person' name='person' onChange={onChangeInput} />
+
                 <label htmlFor='age'>Age:</label>
-                <input type="text" id='age' ref={inputRef1} />
-                <button onClick={onClickHandler}>Click</button>
+                <input type="text" id='age' name='age' onChange={onChangeInput} />
+
+                <label htmlFor='job'>Job:</label>
+                <input type="text" id='job' name='job' onChange={onChangeInput} />
+
+                <label htmlFor='status'>Status:</label>
+                <input type="text" id='status' name='status' onChange={onChangeInput} />
+                <button onClick={onClickForm}>Set data</button>
             </form>
 
             <table id='table'>
                 <thead>
-                    <th>Name</th>
-                    <th>Age</th>
+                    <tr>
+                        <th>Person</th>
+                        <th>Age</th>
+                        <th>Job</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody className='formTable'>
-                    <td>{name}</td>
-                    <td>{age}</td>
+                    <tr>
+                        <td>{state.person}</td>
+                        <td>{state.age}</td>
+                        <td>{state.job}</td>
+                        <td>{state.status}</td>
+                    </tr>
+
                 </tbody>
             </table>
 
